@@ -1,0 +1,8 @@
+#include "WPS.h"
+
+%module{ Text::Convert::Plugin::WPS };
+
+%name{ Text::Convert::Plugin::WPS } class WPS
+{
+	static std::string parse();
+};
