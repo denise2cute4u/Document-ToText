@@ -10,8 +10,12 @@ our @EXPORT  = 'txt';
 our @ISA     = 'Exporter';
 our $VERSION = .1;
 
+#sub import { *{ caller . '::txt' } = \*{ "$_[0]::txt" } }
+
 sub txt
 {
+	my ( $class, $something ) = @_;
+
 	Text::Convert::Plugin::WPS::parse;
 }
 
