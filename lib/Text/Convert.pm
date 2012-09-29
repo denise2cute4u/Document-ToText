@@ -16,9 +16,7 @@ sub import
 
 sub txt
 {
-	my ( $class, $something ) = @_;
-
-	Text::Convert::Plugin::WPS::parse;
+	Text::Convert::Plugin::WPS::parse( $_[0] );
 }
 
 1;

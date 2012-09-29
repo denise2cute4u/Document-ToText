@@ -5,5 +5,5 @@
 
 %name{ Text::Convert::Plugin::WPS } class WPS
 {
-	static std::string parse();
+	static std::string parse( std::string& filename );
 };

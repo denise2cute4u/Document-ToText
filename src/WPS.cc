@@ -66,9 +66,9 @@ class Interface : public WPXDocumentInterface
 		virtual void insertText( const WPXString &string ) { text += string.cstr(); }
 };
 
-std::string WPS::parse()
+std::string WPS::parse( const std::string& filename )
 {
-	WPXFileStream input( "/home/jraspass/wps/1327342505.47230.wps" );
+	WPXFileStream input( filename.c_str() );
 	Interface     interface;
 
 	WPSDocument::parse( &input, &interface );

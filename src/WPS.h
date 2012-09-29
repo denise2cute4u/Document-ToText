@@ -3,5 +3,5 @@
 class WPS
 {
 	public:
-		static std::string parse();
+		static std::string parse( const std::string& filename );
 };
