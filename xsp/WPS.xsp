@@ -1,9 +1,9 @@
 #include "WPS.h"
 #include <string>
 
-%module{ Text::Convert::Plugin::WPS };
+%module{ Text::Convert::Plugin::application_msworks };
 
-%name{ Text::Convert::Plugin::WPS } class WPS
+%name{ Text::Convert::Plugin::application_msworks } class WPS
 {
 	static std::string parse( std::string& filename );
 };

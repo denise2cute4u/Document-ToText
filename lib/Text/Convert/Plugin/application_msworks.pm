@@ -1,11 +1,11 @@
-package Text::Convert::Plugin::WPS;
+package Text::Convert::Plugin::application_msworks;
 
 use strict;
 use warnings;
 
 require XSLoader;
 
-XSLoader::load( 'Text::Convert::Plugin::WPS' );
+XSLoader::load( 'Text::Convert::Plugin::application_msworks' );
 
 1;
 
