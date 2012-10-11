@@ -1,4 +1,4 @@
-package Text::Convert;
+package Document::ToText;
 
 use strict;
 use warnings;
@@ -23,12 +23,15 @@ sub txt
 	   $mime = 'application/msworks' if $mime eq 'Composite Document File V2 Document, No summary info';
 
 	my $class = $mime;
-	   $class =~ s/\//_/g;
+	   $class =~ s/.*\///g;
 
-	require "Text/Convert/Plugin/$class.pm";
+	require "Document/ToText/$class.pm";
 	
-	#&{ "Text::Convert::Plugin::$class::parse" }( $filename );
-	Text::Convert::Plugin::application_msworks::parse( $filename );
+	#&{ "Document::ToText::$class::parse" }( $filename );
+	my $text = Document::ToText::msworks::parse( $filename );
+	   $text =~ s/^\s+//;
+	   $text =~ s/\s+$//;
+	   $text;
 }
 
 1;
@@ -37,4 +40,4 @@ __END__
 
 =head1 NAME
 
-Text::Convert - Convert documents into plain text
+Document::ToText - Convert documents into plain text

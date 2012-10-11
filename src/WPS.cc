@@ -16,7 +16,6 @@ class Interface : public WPXDocumentInterface
 		virtual void closeFootnote(){}
 		virtual void closeFrame(){}
 		virtual void closeHeader(){}
-		virtual void closeListElement(){}
 		virtual void closeOrderedListLevel(){}
 		virtual void closePageSpan(){}
 		virtual void closeSection(){}
@@ -59,6 +58,7 @@ class Interface : public WPXDocumentInterface
 
 		std::string text;
 
+		virtual void closeListElement()                    { text += "\n";          }
 		virtual void closeParagraph()                      { text += "\n";          }
 		virtual void insertLineBreak()                     { text += "\n";          }
 		virtual void insertSpace()                         { text += " ";           }
