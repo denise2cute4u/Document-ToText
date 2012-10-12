@@ -1,0 +1,9 @@
+#include "DOC.h"
+#include <string>
+
+%module{ Document::ToText };
+
+%name{ Document::ToText::application_msword } class DOC
+{
+	static std::string parse( std::string& filename );
+};
