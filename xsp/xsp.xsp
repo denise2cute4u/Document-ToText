@@ -1,6 +1,4 @@
-#include "DOC.h"
-#include "RTF.h"
-#include "WPS.h"
+#include "ToText.h"
 #include <string>
 
 %module{ Document::ToText };

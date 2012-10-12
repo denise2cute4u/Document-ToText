@@ -1,9 +1,7 @@
-#include "WPS.h"
 #include <libwpd/WPXDocumentInterface.h>
 #include <libwpd-stream/WPXStreamImplementation.h>
 #include <libwps/libwps.h>
 #include <sstream>
-#include <stdio.h>
 #include <string>
 
 class Interface :public WPXDocumentInterface
@@ -71,12 +69,28 @@ class Interface :public WPXDocumentInterface
 		void openOrderedListLevel( const WPXPropertyList&  ){ i = 0;             }
 };
 
-std::string WPS::parse( const std::string& filename )
+class DOC
 {
-	WPXFileStream input( filename.c_str() );
-	Interface     interface;
+	public:
+		static std::string parse( const std::string& filename ){ return filename; }
+};
 
-	WPSDocument::parse( &input, &interface );
+class RTF
+{
+	public:
+		static std::string parse( const std::string& filename ){ return filename; }
+};
 
-	return interface.ss.str();
-}
+class WPS
+{
+	public:
+		static std::string parse( const std::string& filename )
+		{
+			WPXFileStream input( filename.c_str() );
+			Interface     interface;
+
+			WPSDocument::parse( &input, &interface );
+
+			return interface.ss.str();
+		}
+};
