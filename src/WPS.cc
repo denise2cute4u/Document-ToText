@@ -2,13 +2,14 @@
 #include <libwpd/WPXDocumentInterface.h>
 #include <libwpd-stream/WPXStreamImplementation.h>
 #include <libwps/libwps.h>
+#include <sstream>
 #include <stdio.h>
 #include <string>
 
 class Interface : public WPXDocumentInterface
 {
 	private:
-		int olCount;
+		unsigned short i;
 
 	public:
 		         Interface(){}
@@ -57,17 +58,17 @@ class Interface : public WPXDocumentInterface
 		virtual void setDocumentMetaData( const WPXPropertyList& ){}
 		virtual void startDocument(){}
 
-		std::string text;
+		std::stringstream ss;
 
-		virtual void closeListElement()                              { text += "\n";          }
-		virtual void closeParagraph()                                { text += "\n";          }
-		virtual void insertLineBreak()                               { text += "\n";          }
-		virtual void insertSpace()                                   { text += " ";           }
-		virtual void insertTab()                                     { text += "\t";          }
-		virtual void insertText(      const WPXString &string )      { text += string.cstr(); }
+		virtual void closeListElement()                             { ss << "\n";        }
+		virtual void closeParagraph()                               { ss << "\n";        }
+		virtual void insertLineBreak()                              { ss << "\n";        }
+		virtual void insertSpace()                                  { ss <<  " ";        }
+		virtual void insertTab()                                    { ss << "\t";        }
+		virtual void insertText(      const WPXString& txt         ){ ss << txt.cstr();  }
 		virtual void openListElement( const WPXPropertyList&,
-		                              const WPXPropertyListVector & ){ text += std::to_string( ++olCount ) + ". "; }
-		virtual void openOrderedListLevel( const WPXPropertyList& )  { olCount = 0; }
+		                              const WPXPropertyListVector& ){ ss << ++i << ". "; }
+		virtual void openOrderedListLevel( const WPXPropertyList&  ){ i = 0;             }
 };
 
 std::string WPS::parse( const std::string& filename )
@@ -77,5 +78,5 @@ std::string WPS::parse( const std::string& filename )
 
 	WPSDocument::parse( &input, &interface );
 
-	return interface.text;
+	return interface.ss.str();
 }
