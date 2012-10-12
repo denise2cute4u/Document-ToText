@@ -7,6 +7,9 @@
 
 class Interface : public WPXDocumentInterface
 {
+	private:
+		int olCount;
+
 	public:
 		         Interface(){}
 		virtual ~Interface(){}
@@ -42,8 +45,6 @@ class Interface : public WPXDocumentInterface
 		virtual void openFootnote( const WPXPropertyList& ){}
 		virtual void openFrame( const WPXPropertyList& ){}
 		virtual void openHeader( const WPXPropertyList& ){}
-		virtual void openListElement( const WPXPropertyList&, const WPXPropertyListVector& ){}
-		virtual void openOrderedListLevel( const WPXPropertyList& ){}
 		virtual void openPageSpan( const WPXPropertyList& ){}
 		virtual void openParagraph( const WPXPropertyList&, const WPXPropertyListVector& ){}
 		virtual void openSection( const WPXPropertyList&, const WPXPropertyListVector& ){}
@@ -58,12 +59,15 @@ class Interface : public WPXDocumentInterface
 
 		std::string text;
 
-		virtual void closeListElement()                    { text += "\n";          }
-		virtual void closeParagraph()                      { text += "\n";          }
-		virtual void insertLineBreak()                     { text += "\n";          }
-		virtual void insertSpace()                         { text += " ";           }
-		virtual void insertTab()                           { text += "\t";          }
-		virtual void insertText( const WPXString &string ) { text += string.cstr(); }
+		virtual void closeListElement()                              { text += "\n";          }
+		virtual void closeParagraph()                                { text += "\n";          }
+		virtual void insertLineBreak()                               { text += "\n";          }
+		virtual void insertSpace()                                   { text += " ";           }
+		virtual void insertTab()                                     { text += "\t";          }
+		virtual void insertText(      const WPXString &string )      { text += string.cstr(); }
+		virtual void openListElement( const WPXPropertyList&,
+		                              const WPXPropertyListVector & ){ text += std::to_string( ++olCount ) + ". "; }
+		virtual void openOrderedListLevel( const WPXPropertyList& )  { olCount = 0; }
 };
 
 std::string WPS::parse( const std::string& filename )
