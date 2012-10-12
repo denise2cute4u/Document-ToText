@@ -1,2 +1,0 @@
-%typemap{ std::string  }{ simple    };
-%typemap{ std::string& }{ reference };

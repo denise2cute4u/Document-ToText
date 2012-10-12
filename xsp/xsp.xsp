@@ -1,0 +1,24 @@
+#include "DOC.h"
+#include "RTF.h"
+#include "WPS.h"
+#include <string>
+
+%module{ Document::ToText };
+
+%typemap{ std::string  }{ simple    };
+%typemap{ std::string& }{ reference };
+
+%name{ Document::ToText::application_msword } class DOC
+{
+	static std::string parse( std::string& filename );
+};
+
+%name{ Document::ToText::text_rtf } class RTF
+{
+	static std::string parse( std::string& filename );
+};
+
+%name{ Document::ToText::application_msworks } class WPS
+{
+	static std::string parse( std::string& filename );
+};

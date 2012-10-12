@@ -1,9 +1,0 @@
-#include "WPS.h"
-#include <string>
-
-%module{ Document::ToText };
-
-%name{ Document::ToText::application_msworks } class WPS
-{
-	static std::string parse( std::string& filename );
-};
