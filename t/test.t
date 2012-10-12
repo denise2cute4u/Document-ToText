@@ -6,9 +6,7 @@ can_ok __PACKAGE__, 'txt';
 
 my $hacker_ethic = do { local $/; <DATA> };
 
-$0 =~ /(.*)\//;
-
-lives_ok { is txt( $_ ), $hacker_ethic } $_ for ( <$1/files/*> );
+lives_ok { is txt( $_ ), $hacker_ethic } $_ for ( <t/files/*> );
 
 done_testing;
 
