@@ -7,6 +7,10 @@ use File::LibMagic;
 
 our $VERSION = .1;
 
+require XSLoader;
+
+XSLoader::load( 'Document::ToText' );
+
 sub import
 {
 	no strict 'refs';
@@ -23,12 +27,11 @@ sub txt
 	   $mime = 'application/msworks' if $mime eq 'Composite Document File V2 Document, No summary info';
 
 	my $class = $mime;
-	   $class =~ s/.*\///g;
+	   $class =~ s/\//_/g;
 
 	require "Document/ToText/$class.pm";
-	
-	#&{ "Document::ToText::$class::parse" }( $filename );
-	my $text = Document::ToText::msworks::parse( $filename );
+
+	my $text = &{ \&{ "Document::ToText::${class}::parse" } }( $filename );
 	   $text =~ s/^\s+//;
 	   $text =~ s/\s+$//;
 	   $text;

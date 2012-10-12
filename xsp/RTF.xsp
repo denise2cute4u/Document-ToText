@@ -1,9 +1,9 @@
-#include "WPS.h"
+#include "RTF.h"
 #include <string>
 
 %module{ Document::ToText };
 
-%name{ Document::ToText::application_msworks } class WPS
+%name{ Document::ToText::text_rtf } class RTF
 {
 	static std::string parse( std::string& filename );
 };
