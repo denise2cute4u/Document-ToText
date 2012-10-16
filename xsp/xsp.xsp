@@ -6,12 +6,22 @@
 %typemap{ std::string  }{ simple    };
 %typemap{ std::string& }{ reference };
 
+%name{ Document::ToText } class ToText
+{
+	static std::string mime( std::string& filename );
+};
+
 %name{ Document::ToText::application_msword } class DOC
 {
 	static std::string parse( std::string& filename );
 };
 
 %name{ Document::ToText::text_rtf } class RTF
+{
+	static std::string parse( std::string& filename );
+};
+
+%name{ Document::ToText::application_wordperfect } class WPD
 {
 	static std::string parse( std::string& filename );
 };

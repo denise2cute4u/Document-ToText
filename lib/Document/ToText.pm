@@ -3,8 +3,6 @@ package Document::ToText;
 use strict;
 use warnings;
 
-use File::LibMagic;
-
 our $VERSION = .1;
 
 require XSLoader;
@@ -21,17 +19,12 @@ sub import
 sub txt
 {
 	my $filename = $_[0];
-	
-	my $mime = File::LibMagic->new->checktype_filename( $filename );
-	   $mime =~ s/;.*//;
-	   $mime = 'application/msworks' if $mime eq 'Composite Document File V2 Document, No summary info';
 
-	my $class = $mime;
-	   $class =~ s/\//_/g;
+	my $mime = mime( $filename );
 
-	require "Document/ToText/$class.pm";
+	require "Document/ToText/$mime.pm";
 
-	my $text = &{ \&{ "Document::ToText::${class}::parse" } }( $filename );
+	my $text = &{ \&{ "Document::ToText::${mime}::parse" } }( $filename );
 	   $text =~ s/^\s+//;
 	   $text =~ s/\s+$//;
 	   $text;

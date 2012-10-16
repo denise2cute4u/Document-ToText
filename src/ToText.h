@@ -1,6 +1,7 @@
-#include <libwpd/WPXDocumentInterface.h>
+#include <libwpd/libwpd.h>
 #include <libwpd-stream/WPXStreamImplementation.h>
 #include <libwps/libwps.h>
+#include <magic.h>
 #include <sstream>
 #include <string>
 
@@ -69,16 +70,60 @@ class Interface :public WPXDocumentInterface
 		void openOrderedListLevel( const WPXPropertyList&  ){ i = 0;             }
 };
 
+class ToText
+{
+	public:
+		static std::string mime( const std::string& filename )
+		{
+			magic_t cookie = magic_open( MAGIC_MIME_TYPE );
+
+			magic_load( cookie, NULL );
+
+			std::string mime = magic_file( cookie, filename.c_str() );
+
+			if ( mime.compare( "Composite Document File V2 Document, No summary info" ) == 0 )
+			{
+				// this might need revising for .doc(x)
+				mime = "application_msworks";
+			}
+			else if ( mime.compare( "application/octet-stream" ) == 0 )
+			{
+				// this is a hell of an asumption, but it'll do for now
+				mime = "application_wordperfect";
+			}
+			else
+			{
+				mime[ mime.find( '/' ) ] = '_';
+			}
+
+			return mime;
+		}
+};
+
 class DOC
 {
 	public:
-		static std::string parse( const std::string& filename ){ return filename; }
+		static std::string parse( const std::string& filename ){ return "im a DOC"; }
 };
 
 class RTF
 {
 	public:
-		static std::string parse( const std::string& filename ){ return filename; }
+		static std::string parse( const std::string& filename ){ return "im an RTF"; }
+};
+
+class WPD
+{
+	public:
+		static std::string parse( const std::string& filename )
+		{
+			WPXFileStream input( filename.c_str() );
+			Interface     interface;
+
+			WPDocument::parse( &input, &interface, NULL );
+
+			return interface.ss.str();
+		}
 };
 
 class WPS
