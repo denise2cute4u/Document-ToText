@@ -77,33 +77,47 @@ class ToText
 		{
 			magic_t cookie = magic_open( MAGIC_MIME_TYPE );
 
-			magic_load( cookie, NULL );
+			magic_load( cookie, "/home/jraspass/Document-ToText/magic:/usr/share/file/magic" );
 
 			std::string mime = magic_file( cookie, filename.c_str() );
 
+			if ( mime.compare( "application/zip" ) == 0 ) // libre/openoffice docx
+			{
+				size_t len = filename.length();
+
+				if ( len > 4
+				&& filename[ len - 5 ] == '.'
+				&& filename[ len - 4 ] == 'd'
+				&& filename[ len - 3 ] == 'o'
+				&& filename[ len - 2 ] == 'c'
+				&& filename[ len - 1 ] == 'x' )
+				{
+					mime = "application_vnd_openxmlformats_officedocument_wordprocessingml";
+				}
+			}
 			if ( mime.compare( "Composite Document File V2 Document, No summary info" ) == 0 )
 			{
-				// this might need revising for .doc(x)
 				mime = "application_msworks";
-			}
-			else if ( mime.compare( "application/octet-stream" ) == 0 )
-			{
-				// this is a hell of an asumption, but it'll do for now
-				mime = "application_wordperfect";
 			}
 			else
 			{
-				mime[ mime.find( '/' ) ] = '_';
+				for( unsigned short i = 0; i < mime.length(); i++ )
+				{
+					if ( mime[i] == '/' || mime[i] == '.' || mime[i] == '-' )
+					{
+						mime[i] = '_';
+					}
+				}
 			}
 
 			return mime;
 		}
 };
 
-class DOC
+class DOCX
 {
 	public:
-		static std::string parse( const std::string& filename ){ return "im a DOC"; }
+		static std::string parse( const std::string& filename ){ return "im a DOCX"; }
 };
 
 class RTF
