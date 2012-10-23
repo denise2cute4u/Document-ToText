@@ -72,12 +72,18 @@ class Interface :public WPXDocumentInterface
 
 class ToText
 {
+	private:
+		static magic_t cookie;
+
 	public:
 		static std::string mime( const std::string& filename )
 		{
-			magic_t cookie = magic_open( MAGIC_MIME_TYPE );
+			if ( cookie == NULL )
+			{
+				cookie = magic_open( MAGIC_MIME_TYPE );
 
-			magic_load( cookie, "/home/jraspass/Document-ToText/magic:/usr/share/file/magic" );
+				magic_load( cookie, "/home/jraspass/Document-ToText/magic:/usr/share/file/magic" );
+			}
 
 			std::string mime = magic_file( cookie, filename.c_str() );
 
@@ -114,11 +120,7 @@ class ToText
 		}
 };
 
-class DOCX
-{
-	public:
-		static std::string parse( const std::string& filename ){ return "im a DOCX"; }
-};
+magic_t ToText::cookie;
 
 class RTF
 {

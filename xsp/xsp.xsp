@@ -11,11 +11,6 @@
 	static std::string mime( std::string& filename );
 };
 
-%name{ Document::ToText::application_vnd_openxmlformats_officedocument_wordprocessingml } class DOCX
-{
-	static std::string parse( std::string& filename );
-};
-
 %name{ Document::ToText::text_rtf } class RTF
 {
 	static std::string parse( std::string& filename );
