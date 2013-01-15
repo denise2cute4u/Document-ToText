@@ -13,7 +13,7 @@ sub import
 {
 	no strict 'refs';
 
-	*{ caller . '::txt' } = \*{ "$_[0]::txt" };
+	*{ caller . '::txt' } = \&txt;
 }
 
 sub txt
